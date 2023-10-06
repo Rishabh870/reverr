@@ -35,6 +35,7 @@ function Login() {
           <input
             className="login-input"
             type="email"
+            required
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -45,6 +46,7 @@ function Login() {
             placeholder="Password"
             type="password"
             className="login-input"
+            required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

@@ -25,6 +25,9 @@ const Tallycounter = ({ index }) => {
   };
 
   const handleSetNumber = () => {
+    if (numberInput === "" || numberInput < 0) {
+      return;
+    }
     dispatch(setNumber({ index, value: numberInput }));
   };
 
@@ -37,6 +40,9 @@ const Tallycounter = ({ index }) => {
   };
 
   const handleSetName = () => {
+    if (nameInput === "") {
+      return;
+    }
     dispatch(setName({ index, value: nameInput }));
   };
 

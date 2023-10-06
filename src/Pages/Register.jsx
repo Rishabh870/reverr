@@ -32,6 +32,7 @@ function Register() {
         <div className="form-group">
           <input
             className="login-input"
+            required
             type="email"
             placeholder="Email"
             value={email}
@@ -41,6 +42,7 @@ function Register() {
         <div className="form-group">
           <input
             placeholder="Password [more then 6 letters]"
+            required
             type="password"
             className="login-input"
             value={password}
