@@ -4,6 +4,7 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addTally, removeTally } from "../redux";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Home = () => {
   const Logout = () => {
     localStorage.removeItem("userEmail");
     navigate("/login");
+    toast.success("Logout successful");
   };
 
   return (

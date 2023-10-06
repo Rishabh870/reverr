@@ -3,6 +3,7 @@ import "../App.css"; // Import your CSS file for styling
 import { auth } from "./firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,12 +11,17 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      toast.success("Registration successful");
       navigate("/login");
     } catch (error) {
       console.error("Registration Error:", error);
+      toast.error(error.message);
     }
   };
 
@@ -44,9 +50,11 @@ function Register() {
         <button className="login-button" type="submit">
           Register
         </button>
-        <Link className="link-style" to="/login" type="submit">
-          Login
-        </Link>
+        <div style={{ marginTop: "10px" }}>
+          <Link className="link-style" to="/login" type="submit">
+            Login
+          </Link>
+        </div>
       </form>
     </div>
   );

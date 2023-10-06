@@ -3,6 +3,7 @@ import "../App.css"; // Import your CSS file for styling
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -16,11 +17,13 @@ function Login() {
       localStorage.setItem("userEmail", email);
       const userEmail = localStorage.getItem("userEmail");
       if (userEmail) {
+        toast.success("Login successful");
         navigate("/");
       }
     } catch (error) {
       // Handle registration error
       console.error("Registration Error:", error);
+      toast.error(error.message);
     }
   };
 
@@ -49,9 +52,11 @@ function Login() {
         <button className="login-button" type="submit">
           Login
         </button>
-        <Link className="link-style" to="/register" type="submit">
-          Register
-        </Link>
+        <div style={{ marginTop: "10px" }}>
+          <Link className="link-style" to="/register" type="submit">
+            Register
+          </Link>
+        </div>
       </form>
     </div>
   );
