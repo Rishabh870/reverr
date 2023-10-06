@@ -1,64 +1,52 @@
 import React, { useState } from "react";
 import "../App.css";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  increment,
-  decrement,
-  setShowNameInput,
-  setShowNumberInput,
-  setNumber,
-  setName,
-  reset,
-  setInputName,
-  setInputNumber,
-} from "../redux";
+import { increment, decrement, setNumber, setName, reset } from "../redux";
 const Tallycounter = ({ index }) => {
-  const {
-    number,
-    inputNumber,
-    inputName,
-    name,
-    showNameInput,
-    showNumberInput,
-  } = useSelector((state) => state.tally);
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [showNumberInput, setShowNumberInput] = useState(false);
+
+  const [nameInput, setNameInput] = useState("");
+  const [numberInput, setNumberInput] = useState("");
+  const { number, name } = useSelector((state) => state.tally.tally[index]);
+  const t = useSelector((state) => state.tally.tally[index]);
+  console.log(t);
   const dispatch = useDispatch();
 
   // Function to handle increment
   const handleIncrement = () => {
-    dispatch(increment());
+    dispatch(increment({ index }));
   };
 
   // Function to handle decrement
   const handleDecrement = () => {
     if (number > 0) {
-      dispatch(decrement());
+      dispatch(decrement({ index }));
     }
   };
 
-  const handleShowNameInput = () => {
-    dispatch(setShowNameInput());
+  const handleSetNumber = () => {
+    dispatch(setNumber({ index, value: numberInput }));
   };
 
-  const handleShowNumberInput = () => {
-    dispatch(setShowNumberInput());
-  };
-  const handleSetNumber = () => {
-    dispatch(setNumber(inputNumber));
+  const handleReset = () => {
+    dispatch(reset({ index }));
+    setNameInput("");
+    setNumberInput("");
+    setShowNameInput(false);
+    setShowNumberInput(false);
   };
 
   const handleSetName = () => {
-    dispatch(setName(inputName));
+    dispatch(setName({ index, value: nameInput }));
   };
-  const handleSetInputName = (e) => {
-    // Dispatch action to set inputName
-    dispatch(setInputName(e.target.value));
+
+  const handleShowNameInput = () => {
+    setShowNameInput(true);
   };
-  const handleSetInputNumber = (e) => {
-    // Dispatch action to set inputName
-    dispatch(setInputNumber(e.target.value));
-  };
-  const handleReset = () => {
-    dispatch(reset());
+
+  const handleShowNumberInput = () => {
+    setShowNumberInput(true);
   };
 
   return (
@@ -88,8 +76,8 @@ const Tallycounter = ({ index }) => {
             <div className="input-container">
               <input
                 type="text"
-                value={inputName}
-                onChange={handleSetInputName}
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
               />
               <button className="style-button" onClick={handleSetName}>
                 Set
@@ -104,12 +92,11 @@ const Tallycounter = ({ index }) => {
         <div>
           {showNumberInput ? (
             <div className="input-container">
-              {" "}
               <input
                 type="number"
-                value={inputNumber}
-                onChange={handleSetInputNumber}
-              />{" "}
+                value={numberInput}
+                onChange={(e) => setNumberInput(e.target.value)}
+              />
               <button className="style-button" onClick={handleSetNumber}>
                 Set
               </button>

@@ -4,61 +4,71 @@ import { createSlice } from "@reduxjs/toolkit";
 const tallySlice = createSlice({
   name: "tally",
   initialState: {
-    number: 0,
-    inputNumber: 0,
-    inputName: "",
-    name: "Tally Counter",
-    showNameInput: false,
-    showNumberInput: false,
+    tally: [
+      {
+        number: 0,
+        inputNumber: 0,
+        inputName: "",
+        name: "Tally Counter",
+        showNameInput: false,
+        showNumberInput: false,
+      },
+    ],
   },
   reducers: {
-    increment: (state) => {
-      state.number += 1;
+    addTally: (state, action) => {
+      state.tally.push({
+        number: 0,
+        inputNumber: 0,
+        inputName: "",
+        name: "Tally Counter",
+        showNameInput: false,
+        showNumberInput: false,
+      });
     },
-    decrement: (state) => {
-      if (state.number > 0) {
-        state.number -= 1;
+    increment: (state, action) => {
+      console.log(action.payload);
+      const index = action.payload.index;
+      state.tally[index].number += 1;
+    },
+    decrement: (state, action) => {
+      const index = action.payload.index;
+
+      if (state.tally[index].number > 0) {
+        state.tally[index].number -= 1;
       }
     },
-    setShowNameInput: (state) => {
-      state.showNameInput = true;
-    },
-    setShowNumberInput: (state) => {
-      state.showNumberInput = true;
-    },
     setNumber: (state, action) => {
-      state.number = action.payload;
+      const index = action.payload.index;
+      state.tally[index].number = action.payload.value;
     },
     setName: (state, action) => {
-      state.name = action.payload;
+      const index = action.payload.index;
+      state.tally[index].name = action.payload.value;
     },
-    reset: (state) => {
-      state.name = "Tally Counter";
-      state.number = 0;
-      state.showNameInput = false;
-      state.showNumberInput = false;
-      state.inputName = "";
-      state.inputNumber = "";
+    reset: (state, action) => {
+      const index = action.payload.index;
+      state.tally[index].name = "Tally Counter";
+      state.tally[index].number = 0;
+      state.tally[index].showNameInput = false;
+      state.tally[index].showNumberInput = false;
+      state.tally[index].inputName = "";
+      state.tally[index].inputNumber = "";
     },
-    setInputName: (state, action) => {
-      state.inputName = action.payload;
-    },
-    setInputNumber: (state, action) => {
-      state.inputNumber = action.payload;
+    removeTally: (state, action) => {
+      state.tally.splice(action.payload.index, 1);
     },
   },
 });
 
 export const {
+  addTally,
   increment,
   decrement,
-  setShowNameInput,
-  setShowNumberInput,
   setNumber,
   setName,
   reset,
-  setInputName,
-  setInputNumber,
+  removeTally,
 } = tallySlice.actions;
 
 export default tallySlice.reducer;

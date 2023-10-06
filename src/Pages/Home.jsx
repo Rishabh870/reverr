@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Tallycounter from "./Tallycounter";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addTally, removeTally } from "../redux";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -13,20 +15,22 @@ const Home = () => {
     }
   }, []);
 
-  const [counters, setCounters] = useState([1]); // Initialize with one counter
-
+  // Initialize with one counter
+  const counter = useSelector((state) => state.tally.tally);
+  const dispatch = useDispatch();
   const addCounter = () => {
-    const newCounters = [...counters, counters.length + 1];
-    setCounters(newCounters);
+    dispatch(addTally());
   };
+
+  const removeCounter = (index) => {
+    dispatch(removeTally({ index }));
+  };
+
   const Logout = () => {
     localStorage.removeItem("userEmail");
     navigate("/login");
   };
-  const removeCounter = (counterId) => {
-    const updatedCounters = counters.filter((counter) => counter !== counterId);
-    setCounters(updatedCounters);
-  };
+
   return (
     <div>
       <button className="add-button" onClick={addCounter}>
@@ -36,9 +40,14 @@ const Home = () => {
         Logout
       </button>
       <div className="counter-grid">
-        {counters.map((counter, index) => (
-          <div className="counter-item" key={counter}>
-            <button className="remove" onClick={() => removeCounter(counter)}>
+        {counter.map((_, index) => (
+          <div className="counter-item" key={index}>
+            <button
+              className="remove"
+              onClick={() => {
+                removeCounter(index);
+              }}
+            >
               x
             </button>
             <Tallycounter index={index} />
