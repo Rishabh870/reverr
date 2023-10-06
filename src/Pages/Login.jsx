@@ -14,7 +14,10 @@ function Login() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("userEmail", email);
-      navigate("/");
+      const userEmail = localStorage.getItem("userEmail");
+      if (userEmail) {
+        navigate("/");
+      }
     } catch (error) {
       // Handle registration error
       console.error("Registration Error:", error);

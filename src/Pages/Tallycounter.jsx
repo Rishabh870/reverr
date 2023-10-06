@@ -9,8 +9,7 @@ const Tallycounter = ({ index }) => {
   const [nameInput, setNameInput] = useState("");
   const [numberInput, setNumberInput] = useState("");
   const { number, name } = useSelector((state) => state.tally.tally[index]);
-  const t = useSelector((state) => state.tally.tally[index]);
-  console.log(t);
+
   const dispatch = useDispatch();
 
   // Function to handle increment
